@@ -1,0 +1,17 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Страница регистрации
+{% endblock title %}
+
+{% block content %}
+<div class="container m-3">
+    <h1>Регистрация</h1>
+    <form action="" method="post" class="filter-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Продолжить" class="btn btn-outline-dark mt-4">
+    </form>
+    <p class="mt-3"><a href="{% url 'account_login' %}">Уже есть аккаунт?</a></p>
+</div>
+{% endblock content %}

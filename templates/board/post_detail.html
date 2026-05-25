@@ -1,0 +1,58 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Объявление № {{ post.id }}
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center bg-dark">
+            <span class="text-light">{{post.title}}</span>
+            <span class="small text-light">Автор: {{post.author}}</span>
+        </div>
+        <div class="card-body">
+            <p style="align-items: right">{{post.content|safe}}</p>
+        </div>
+        {% if user.is_authenticated %}
+        <form action = "" method="post" class="row g-2">
+            <div class="col-lg-4 d-flex flex-column ms-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+            </div>
+            <div class="col-auto">
+                <input type = "submit" value="ОК" class="btn btn-outline-dark btn-sm">
+            </div>
+        </form>
+        {% endif %}
+        <div class="card-footer text-muted d-flex justify-content-between align-items-center">
+            <span></span>
+            <span class="small">Добавлено: {{post.created_at}}</span>
+        </div>
+    </div>
+</div>
+<br>
+
+{% if post.responses.all %}
+    <h3>Отклики 💬</h3>
+    {% for resp in post.responses.all %}
+        <div class="card mt-2 border-1 rounded-3 mx-auto" style="background-color: #F8F8FF; max-width: 700px;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="small"><strong>👤{{resp.resp_author}}</strong></span>
+                <span class="small">{{resp.resp_date}}</span>
+            </div>
+            <div class="card-body">
+                {% if resp.status %}
+                    <span>{{resp.resp_content}}</span>
+                {% else %}
+                    <span>Отклик находится на модерации</span>
+                {% endif %}
+            </div>
+        </div>
+
+    {% endfor %}
+{% else %}
+    <br>
+    <h5>Комментариев пока нет!</h5>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,24 @@
+{% extends "account/base_manage.html" %}
+{% load allauth i18n %}
+{% block head_title %}
+    {% trans "Sign Out" %}
+{% endblock head_title %}
+{% block content %}
+    {% element h1 %}
+        {% trans "Выход" %}
+    {% endelement %}
+    {% element p %}
+        {% trans 'Are you sure you want to sign out?' %}
+    {% endelement %}
+    {% url 'account_logout' as action_url %}
+    <form action="{{ action_url }}" method="post" class="filter-form">
+            {% csrf_token %}
+            {% element fields no_visible_fields=True %}{% endelement%}
+            {{ redirect_field }}
+            <div class="form-actions mt-3">
+                <button type="submit" class="btn btn-outline-danger w-100">
+                    {% trans "Sign Out" %}
+                </button>
+            </div>
+    </form>
+{% endblock content %}
