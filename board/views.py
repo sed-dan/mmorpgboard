@@ -84,19 +84,14 @@ class PostDetailView(DetailView):
         return context
 
 class ResponsesView(LoginRequiredMixin, ListView):
-
-    def __init__(self):
-        super().__init__()
-        self.filter = None
-
     model = Response
     context_object_name = 'comments'
     template_name = 'board/responses.html'
     filterset_class = ResponseFilter
 
     def get_queryset(self):
-        base_qs = super().get_queryset()
-        qs = base_qs.filter(resp_post__author=self.request.user)
+        queryset = super().get_queryset()
+        qs = queryset.filter(resp_post__author=self.request.user)
         self.filter = ResponseFilter(self.request.GET, queryset=qs, request=self.request.user)
         return self.filter.qs
 
